@@ -65,12 +65,16 @@ def advisory(msgstring,destination=sys.stdout,verbose=True):
 
 advise=advisory
 
-def error(msgstring,error=False,errorType=RuntimeError,destination=sys.stdout,verbose=True):
+def error(msgstring,error=False,terminate=False,errorType=RuntimeError,destination=sys.stdout,verbose=True):
 	now=datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
 
 	if type(destination) is not list:
 		destination=[destination]
 
+	if terminate:
+		for dest in destination:
+			print (bcolors.FAIL +bcolors.BOLD+"[%s] | Error   | "%now+bcolors.ENDC + msgstring+" Exiting ...!",file=dest)
+	
 	if verbose==False:
 		if error:
 			raise errorType(msgstring)
